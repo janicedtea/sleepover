@@ -1,3 +1,41 @@
-[gd_scene format=3 uid="uid://rmj18lepvoqr"]
+[gd_scene load_steps=3 format=3 uid="uid://rmj18lepvoqr"]
 
-[node name="dialogue_layer" type="CanvasLayer"]
+[ext_resource type="Script" uid="uid://vl5a1mhoslq6" path="res://dialogue_layer.gd" id="1_vpqk3"]
+[ext_resource type="Texture2D" uid="uid://l1qgtys5rk2o" path="res://npc2.png" id="2_872dw"]
+
+[node name="DialogueLayer" type="CanvasLayer"]
+script = ExtResource("1_vpqk3")
+
+[node name="Panel" type="Panel" parent="."]
+custom_minimum_size = Vector2(0, 40)
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -115.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="TextureRect" type="TextureRect" parent="Panel"]
+layout_mode = 0
+offset_right = 108.0
+offset_bottom = 113.68421
+texture = ExtResource("2_872dw")
+
+[node name="NameLabel" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 116.0
+offset_right = 247.0
+offset_bottom = 31.0
+theme_override_font_sizes/font_size = 22
+text = "name of npc"
+
+[node name="DialogueLabel" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 117.0
+offset_top = 34.0
+offset_right = 386.0
+offset_bottom = 57.0
+theme_override_font_sizes/font_size = 12
+text = "dialogue label"
+autowrap_mode = 2

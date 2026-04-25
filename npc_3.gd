@@ -10,7 +10,7 @@ func _process(_delta):
 func interact():
 	var dialogue = preload("res://dialogue_layer.tscn").instantiate()
 	get_tree().current_scene.add_child(dialogue)
-	dialogue.start_dialogue(["uhhh my name's peppermint, who're you?", "um... okay... rude", "whatever"], "Peppermint", preload("res://npc.png"))
+	dialogue.start_dialogue(["zzz... oh, hi there! my name's chamomile, but you can call me cam", "oh you're looking for the exit?", "i gotcha, just say the number 3!"], "Chamomile", preload("res://npc3.png"))
 	await dialogue.tree_exited
 	
 
@@ -26,11 +26,11 @@ func _on_area_2d_body_exited(body):
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.name == "Player":
 		player_in_range = true
+		
 
 func _on_area_2d_area_exited(area: Area2D) -> void:
 	if area.name == "Player":
 		player_in_range = false
-		
 
 func interaction():
 	print("yayy")
