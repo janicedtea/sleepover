@@ -46,8 +46,10 @@ animations = [{
 size = Vector2(217.5, 359.5)
 
 [node name="bunnyPlayer" type="Node2D"]
+position = Vector2(560, 391)
 
 [node name="bunnyP" type="CharacterBody2D" parent="."]
+visible = false
 script = ExtResource("1_e4yj3")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="bunnyP"]

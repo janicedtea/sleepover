@@ -1,7 +1,8 @@
-[gd_scene load_steps=15 format=3 uid="uid://bn8x53gs30sn0"]
+[gd_scene load_steps=16 format=3 uid="uid://bn8x53gs30sn0"]
 
 [ext_resource type="Texture2D" uid="uid://cqpkhmb8purrn" path="res://bunnyBedroom.png" id="1_iw0c1"]
 [ext_resource type="Texture2D" uid="uid://b31o2mtofy4kw" path="res://combined-image-removebg-preview.png" id="2_kpde0"]
+[ext_resource type="PackedScene" uid="uid://bqde8m8ly6e5u" path="res://bunny_player.tscn" id="3_e18cj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e18cj"]
 size = Vector2(889, 64)
@@ -134,7 +135,11 @@ texture = ExtResource("1_iw0c1")
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(710, 620)
+position = Vector2(710, 678)
+shape = SubResource("RectangleShape2D_e18cj")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(723, 242)
 shape = SubResource("RectangleShape2D_e18cj")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
@@ -146,6 +151,7 @@ position = Vector2(1320, 362)
 shape = SubResource("RectangleShape2D_ui2oe")
 
 [node name="player" type="CharacterBody2D" parent="."]
+visible = false
 position = Vector2(628, 482)
 scale = Vector2(6, 6)
 script = SubResource("GDScript_o412v")
@@ -175,3 +181,7 @@ position = Vector2(21.5, 0.5)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="player/interaction"]
 position = Vector2(-21.5, -0.25)
 shape = SubResource("RectangleShape2D_j12bj")
+
+[node name="bunnyPlayer" parent="." instance=ExtResource("3_e18cj")]
+position = Vector2(559, 403)
+scale = Vector2(0.7, 0.7)
