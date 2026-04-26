@@ -30,7 +30,7 @@ func _input(event):
 			return
 		else:
 			dialogue_label.text = dialogue_lines[current_line]
-	if event.is_action_pressed("correctanswer"):
+	if event.is_action_pressed("correctanswer1"):
 		answered_correctly.emit()
 		print("dskfjkldsfjds")
 		

@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bsamy5105cdow"]
 
 [ext_resource type="Script" uid="uid://ct35pqx08ffh2" path="res://npc.gd" id="1_xxcha"]
-[ext_resource type="Texture2D" uid="uid://dc1x63777aeo2" path="res://npc.png" id="2_xxcha"]
+[ext_resource type="Texture2D" uid="uid://ctrw0hlx3lhmh" path="res://npc.png" id="2_xxcha"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ul7y6"]
 size = Vector2(15.987869, 15.96263)
@@ -14,7 +14,7 @@ script = ExtResource("1_xxcha")
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(1.5, 1.5)
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_xxcha")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -31,6 +31,3 @@ collision_mask = 3
 position = Vector2(0.096369, 3.6236763)
 scale = Vector2(1.5, 1.5)
 shape = SubResource("RectangleShape2D_bc6q4")
-
-[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
-[connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]
