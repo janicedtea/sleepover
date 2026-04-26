@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://dsh1mpgbg31tg"]
+
+[ext_resource type="Script" uid="uid://b7q8bplvdi2nn" path="res://attack.gd" id="1_63pi1"]
+[ext_resource type="Texture2D" uid="uid://cgm0xaab8en16" path="res://attacker.png" id="2_hqc8w"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7yfhp"]
+size = Vector2(158, 311)
+
+[node name="attack" type="Area2D" unique_id=1494123485]
+script = ExtResource("1_63pi1")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1845574989]
+texture_filter = 1
+texture = ExtResource("2_hqc8w")
+
+[node name="Timer" type="Timer" parent="." unique_id=861526544]
+wait_time = 2.15
+autostart = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=458356210]
+position = Vector2(-7, 0.5)
+shape = SubResource("RectangleShape2D_7yfhp")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
