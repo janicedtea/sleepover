@@ -1,8 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://bn8x53gs30sn0"]
+[gd_scene load_steps=14 format=3 uid="uid://bn8x53gs30sn0"]
 
 [ext_resource type="Texture2D" uid="uid://cqpkhmb8purrn" path="res://bunnyBedroom.png" id="1_iw0c1"]
-[ext_resource type="Texture2D" uid="uid://b31o2mtofy4kw" path="res://combined-image-removebg-preview.png" id="2_kpde0"]
 [ext_resource type="PackedScene" uid="uid://bqde8m8ly6e5u" path="res://bunny_player.tscn" id="3_e18cj"]
+[ext_resource type="Texture2D" uid="uid://in77fqulgwu" path="res://books.png" id="3_ui2oe"]
+[ext_resource type="Script" uid="uid://cy4i0iga650v4" path="res://books.gd" id="4_o412v"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e18cj"]
 size = Vector2(889, 64)
@@ -10,121 +11,33 @@ size = Vector2(889, 64)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ui2oe"]
 size = Vector2(340, 717)
 
-[sub_resource type="GDScript" id="GDScript_o412v"]
-script/source = "extends CharacterBody2D
+[sub_resource type="AtlasTexture" id="AtlasTexture_6d2g4"]
+atlas = ExtResource("3_ui2oe")
+region = Rect2(81, 493, 82, 89)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_885xx"]
+atlas = ExtResource("3_ui2oe")
+region = Rect2(362, 516, 86, 66)
 
-const SPEED = 300.0
-const JUMP_VELOCITY = -500.0
+[sub_resource type="AtlasTexture" id="AtlasTexture_j12bj"]
+atlas = ExtResource("3_ui2oe")
+region = Rect2(481, 560, 99, 72)
 
-enum FacingDirection {left, right, up, down}
-var input_direction = Vector2(0, 0)
+[sub_resource type="AtlasTexture" id="AtlasTexture_ui2oe"]
+atlas = ExtResource("3_ui2oe")
+region = Rect2(965, 165, 46, 69)
 
-@onready var anim_tree = $AnimationTree
+[sub_resource type="AtlasTexture" id="AtlasTexture_o412v"]
+atlas = ExtResource("3_ui2oe")
+region = Rect2(963, 282, 46, 69)
 
-func gameover():
-	get_tree().reload_current_scene()
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ken1"]
+atlas = ExtResource("3_ui2oe")
+region = Rect2(963, 427, 46, 69)
 
-func _physics_process(delta: float) -> void:
-	# Add the gravity.
-	if not is_on_floor():
-		velocity += get_gravity() * delta
-
-	# Handle jump.
-	if Input.is_action_just_pressed(\"ui_accept\") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
-
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	var direction := Input.get_axis(\"ui_left\", \"ui_right\")
-	if direction:
-		velocity.x = direction * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-
-	move_and_slide()
-	
-	anim_tree.active = true
-	
-
-
-func _process(_delta: float) -> void:
-	var current_y = global_position.y
-	if current_y >= 730:
-		gameover()
-"
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_6d2g4"]
-size = Vector2(10.625, 17.625)
-
-[sub_resource type="Animation" id="Animation_tlwt5"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-
-[sub_resource type="Animation" id="Animation_fj7yv"]
-resource_name = "left"
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.31),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [0, 2]
-}
-
-[sub_resource type="Animation" id="Animation_aqk2v"]
-resource_name = "right"
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [0, 1]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_tlwt5"]
-_data = {
-&"RESET": SubResource("Animation_tlwt5"),
-&"left": SubResource("Animation_fj7yv"),
-&"right": SubResource("Animation_aqk2v")
-}
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fj7yv"]
-animation = &"left"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_tlwt5"]
-animation = &"right"
-
-[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_885xx"]
-states/left/node = SubResource("AnimationNodeAnimation_fj7yv")
-states/left/position = Vector2(429, 79)
-states/right/node = SubResource("AnimationNodeAnimation_tlwt5")
-states/right/position = Vector2(588, 126)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_j12bj"]
-size = Vector2(55.25, 49.75)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ui2oe"]
+radius = 74.0
+height = 448.0
 
 [node name="Node2D" type="Node2D"]
 
@@ -150,38 +63,62 @@ shape = SubResource("RectangleShape2D_ui2oe")
 position = Vector2(1320, 362)
 shape = SubResource("RectangleShape2D_ui2oe")
 
-[node name="player" type="CharacterBody2D" parent="."]
-visible = false
-position = Vector2(628, 482)
-scale = Vector2(6, 6)
-script = SubResource("GDScript_o412v")
+[node name="book1" type="Sprite2D" parent="." groups=["book1"]]
+position = Vector2(403, 588)
+texture = SubResource("AtlasTexture_6d2g4")
+script = ExtResource("4_o412v")
 
-[node name="Sprite2D" type="Sprite2D" parent="player"]
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("2_kpde0")
-hframes = 3
+[node name="Area2D" type="Area2D" parent="book1"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="player"]
-position = Vector2(0.125, 0.375)
-scale = Vector2(2, 2)
-shape = SubResource("RectangleShape2D_6d2g4")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="book1/Area2D"]
+polygon = PackedVector2Array(17.099998, -44.5, 0.20000076, -44.5, -28.4, -33.5, -31.2, -33.5, -41, -13.9, -41, 9, -27, 37.9, -27, 41.5, -23, 44.5, 0, 44.5, 30.300003, 31.5, 32.800003, 31.5, 41, 23.300003, 41, 4.799999, 20, -39.9, 20, -42.6)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="player"]
-libraries = {
-&"": SubResource("AnimationLibrary_tlwt5")
-}
+[node name="book2" type="Sprite2D" parent="." groups=["book2"]]
+position = Vector2(586, 590)
+texture = SubResource("AtlasTexture_885xx")
+script = ExtResource("4_o412v")
 
-[node name="AnimationTree" type="AnimationTree" parent="player"]
-tree_root = SubResource("AnimationNodeStateMachine_885xx")
-anim_player = NodePath("../AnimationPlayer")
+[node name="Area2D" type="Area2D" parent="book2"]
 
-[node name="interaction" type="Area2D" parent="player"]
-position = Vector2(21.5, 0.5)
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="book2/Area2D"]
+polygon = PackedVector2Array(43, -33, -32, -33, -42.7, -25, -43, 27.8, -40, 32.6, 7, 33, 12, 28.900002, 17.3, 28, 33.6, 28, 42.6, 22)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="player/interaction"]
-position = Vector2(-21.5, -0.25)
-shape = SubResource("RectangleShape2D_j12bj")
+[node name="book3" type="Sprite2D" parent="." groups=["book3"]]
+position = Vector2(848, 500)
+texture = SubResource("AtlasTexture_j12bj")
+script = ExtResource("4_o412v")
+
+[node name="Area2D" type="Area2D" parent="book3"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="book3/Area2D"]
+polygon = PackedVector2Array(-49.5, -36, -49.5, 33.1, -39.9, 36, -14.900002, 36, -1.9000015, 34.800003, 1.0999985, 36, 49.4, 36, 49.5, -36)
 
 [node name="bunnyPlayer" parent="." instance=ExtResource("3_e18cj")]
 position = Vector2(559, 403)
 scale = Vector2(0.7, 0.7)
+
+[node name="greenBook" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(971, 316)
+texture = SubResource("AtlasTexture_ui2oe")
+
+[node name="blueBook" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(1008, 408)
+texture = SubResource("AtlasTexture_o412v")
+
+[node name="redBook" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(984, 496)
+texture = SubResource("AtlasTexture_4ken1")
+
+[node name="bedArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="bedArea"]
+position = Vector2(318, 461)
+shape = SubResource("CapsuleShape2D_ui2oe")
+
+[connection signal="body_entered" from="book1/Area2D" to="book1" method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="book2/Area2D" to="book2" method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="book3/Area2D" to="book3" method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="bedArea" to="book1" method="_on_bed_area_body_entered"]
