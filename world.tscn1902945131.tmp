@@ -1,0 +1,224 @@
+[gd_scene load_steps=24 format=4 uid="uid://cip28t26ox18"]
+
+[ext_resource type="Texture2D" uid="uid://bc1sk2ch824s3" path="res://tileSet (5).png" id="1_tlwt5"]
+[ext_resource type="Texture2D" uid="uid://bcwjn4hyrvfke" path="res://tileSet (2) (3).png" id="2_aqk2v"]
+[ext_resource type="Texture2D" uid="uid://b31o2mtofy4kw" path="res://combined-image-removebg-preview.png" id="2_fj7yv"]
+[ext_resource type="Script" uid="uid://ct35pqx08ffh2" path="res://npc.gd" id="3_tlwt5"]
+[ext_resource type="PackedScene" uid="uid://rmj18lepvoqr" path="res://dialogue_layer.tscn" id="5_gbfbk"]
+[ext_resource type="PackedScene" uid="uid://bsamy5105cdow" path="res://npc.tscn" id="6_ioo17"]
+[ext_resource type="PackedScene" uid="uid://s6sypq3x682c" path="res://npc_2.tscn" id="7_wse8f"]
+[ext_resource type="PackedScene" uid="uid://crn1ffvkmfjgs" path="res://npc_3.tscn" id="8_ic0uy"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dwbse"]
+texture = ExtResource("2_aqk2v")
+texture_region_size = Vector2i(23, 23)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-11.5, -11.5, 11.5, -11.5, 11.5, 11.5, -11.5, 11.5)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_aqk2v"]
+texture = ExtResource("1_tlwt5")
+texture_region_size = Vector2i(23, 23)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-11.5, -11.5, 11.5, -11.5, 11.5, 11.5, -11.5, 11.5)
+
+[sub_resource type="TileSet" id="TileSet_tlwt5"]
+tile_size = Vector2i(23, 23)
+physics_layer_0/collision_layer = 1
+sources/14 = SubResource("TileSetAtlasSource_dwbse")
+sources/15 = SubResource("TileSetAtlasSource_aqk2v")
+
+[sub_resource type="GDScript" id="GDScript_tlwt5"]
+script/source = "extends CharacterBody2D
+
+
+const SPEED = 300.0
+const JUMP_VELOCITY = -500.0
+
+enum FacingDirection {left, right, up, down}
+var input_direction = Vector2(0, 0)
+
+@onready var anim_tree = $AnimationTree
+
+func gameover():
+	get_tree().reload_current_scene()
+
+func _physics_process(delta: float) -> void:
+	# Add the gravity.
+	if not is_on_floor():
+		velocity += get_gravity() * delta
+
+	# Handle jump.
+	if Input.is_action_just_pressed(\"ui_accept\") and is_on_floor():
+		velocity.y = JUMP_VELOCITY
+
+	# Get the input direction and handle the movement/deceleration.
+	# As good practice, you should replace UI actions with custom gameplay actions.
+	var direction := Input.get_axis(\"ui_left\", \"ui_right\")
+	if direction:
+		velocity.x = direction * SPEED
+	else:
+		velocity.x = move_toward(velocity.x, 0, SPEED)
+
+	move_and_slide()
+	
+	anim_tree.active = true
+	
+
+
+func _process(_delta: float) -> void:
+	var current_y = global_position.y
+	if current_y >= 730:
+		gameover()
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aqk2v"]
+size = Vector2(10.625, 17.625)
+
+[sub_resource type="Animation" id="Animation_tlwt5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_fj7yv"]
+resource_name = "left"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.31),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 2]
+}
+
+[sub_resource type="Animation" id="Animation_aqk2v"]
+resource_name = "right"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tlwt5"]
+_data = {
+&"RESET": SubResource("Animation_tlwt5"),
+&"left": SubResource("Animation_fj7yv"),
+&"right": SubResource("Animation_aqk2v")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fj7yv"]
+animation = &"left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_tlwt5"]
+animation = &"right"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_fj7yv"]
+states/left/node = SubResource("AnimationNodeAnimation_fj7yv")
+states/left/position = Vector2(429, 79)
+states/right/node = SubResource("AnimationNodeAnimation_tlwt5")
+states/right/position = Vector2(588, 126)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tlwt5"]
+size = Vector2(55.25, 49.75)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_036b0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dwbse"]
+
+[node name="world" type="Node2D"]
+scale = Vector2(2, 2)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+scale = Vector2(2, 2)
+tile_map_data = PackedByteArray("AAACAAUADwAAAAAAAAACAAYADgAAAAAAAAACAAcADgAAAAAAAAACAAgADgAAAAAAAAACAAkADgAAAAAAAAADAAUADwAAAAAAAAADAAYADgAAAAAAAAADAAcADgAAAAAAAAADAAgADgAAAAAAAAADAAkADgAAAAAAAAAEAAUADwAAAAAAAAAEAAYADgAAAAAAAAAEAAcADgAAAAAAAAAEAAgADgAAAAAAAAAEAAkADgAAAAAAAAAFAAUADwAAAAAAAAAFAAYADgAAAAAAAAAFAAcADgAAAAAAAAAFAAgADgAAAAAAAAAFAAkADgAAAAAAAAAGAAUADgAAAAAAAAAGAAYADgAAAAAAAAAGAAcADgAAAAAAAAAGAAgADgAAAAAAAAAGAAkADgAAAAAAAAAHAAUADgAAAAAAAAAHAAYADgAAAAAAAAAHAAcADgAAAAAAAAAHAAgADgAAAAAAAAAHAAkADgAAAAAAAAAIAAUADwAAAAAAAAAIAAYADgAAAAAAAAAIAAcADgAAAAAAAAAIAAgADgAAAAAAAAAIAAkADgAAAAAAAAAJAAUADwAAAAAAAAAJAAYADgAAAAAAAAAJAAcADgAAAAAAAAAJAAgADgAAAAAAAAAJAAkADgAAAAAAAAAKAAUADwAAAAAAAAAKAAYADgAAAAAAAAAKAAcADgAAAAAAAAAKAAgADgAAAAAAAAAKAAkADgAAAAAAAAALAAUADwAAAAAAAAALAAYADgAAAAAAAAALAAcADgAAAAAAAAALAAgADgAAAAAAAAALAAkADgAAAAAAAAAMAAUADwAAAAAAAAAMAAYADgAAAAAAAAAMAAcADgAAAAAAAAAMAAgADgAAAAAAAAAMAAkADgAAAAAAAAANAAUADwAAAAAAAAANAAYADgAAAAAAAAANAAcADgAAAAAAAAANAAgADgAAAAAAAAANAAkADgAAAAAAAAAQAAUADgAAAAAAAAAQAAYADgAAAAAAAAAQAAcADgAAAAAAAAAQAAgADgAAAAAAAAAQAAkADgAAAAAAAAARAAUADgAAAAAAAAARAAYADgAAAAAAAAARAAcADgAAAAAAAAARAAgADgAAAAAAAAARAAkADgAAAAAAAAASAAUADgAAAAAAAAASAAYADgAAAAAAAAASAAcADgAAAAAAAAASAAgADgAAAAAAAAASAAkADgAAAAAAAAATAAUADgAAAAAAAAATAAYADgAAAAAAAAATAAcADgAAAAAAAAATAAgADgAAAAAAAAATAAkADgAAAAAAAAAUAAUADwAAAAAAAAAUAAYADgAAAAAAAAAUAAcADgAAAAAAAAAUAAgADgAAAAAAAAAUAAkADgAAAAAAAAAVAAUADwAAAAAAAAAVAAYADgAAAAAAAAAVAAcADgAAAAAAAAAVAAgADgAAAAAAAAAVAAkADgAAAAAAAAAWAAUADwAAAAAAAAAWAAYADgAAAAAAAAAWAAcADgAAAAAAAAAWAAgADgAAAAAAAAAWAAkADgAAAAAAAAAXAAUADwAAAAAAAAAXAAYADgAAAAAAAAAXAAcADgAAAAAAAAAXAAgADgAAAAAAAAAXAAkADgAAAAAAAAAYAAUADwAAAAAAAAAYAAYADgAAAAAAAAAYAAcADgAAAAAAAAAYAAgADgAAAAAAAAAYAAkADgAAAAAAAAAZAAUADwAAAAAAAAAZAAYADgAAAAAAAAAZAAcADgAAAAAAAAAZAAgADgAAAAAAAAAZAAkADgAAAAAAAAAaAAUADwAAAAAAAAAaAAYADgAAAAAAAAAaAAcADgAAAAAAAAAaAAgADgAAAAAAAAAaAAkADgAAAAAAAAAeAAUADwAAAAAAAAAeAAYADgAAAAAAAAAeAAcADgAAAAAAAAAeAAgADgAAAAAAAAAeAAkADgAAAAAAAAAfAAUADwAAAAAAAAAfAAYADgAAAAAAAAAfAAcADgAAAAAAAAAfAAgADgAAAAAAAAAfAAkADgAAAAAAAAAgAAUADwAAAAAAAAAgAAYADgAAAAAAAAAgAAcADgAAAAAAAAAgAAgADgAAAAAAAAAgAAkADgAAAAAAAAAhAAUADwAAAAAAAAAhAAYADgAAAAAAAAAhAAcADgAAAAAAAAAhAAgADgAAAAAAAAAhAAkADgAAAAAAAAAiAAUADwAAAAAAAAAiAAYADgAAAAAAAAAiAAcADgAAAAAAAAAiAAgADgAAAAAAAAAiAAkADgAAAAAAAAAjAAUADwAAAAAAAAAjAAYADgAAAAAAAAAjAAcADgAAAAAAAAAjAAgADgAAAAAAAAAjAAkADgAAAAAAAAAkAAUADwAAAAAAAAAkAAYADgAAAAAAAAAkAAcADgAAAAAAAAAkAAgADgAAAAAAAAAkAAkADgAAAAAAAAAlAAUADwAAAAAAAAAlAAYADgAAAAAAAAAlAAcADgAAAAAAAAAlAAgADgAAAAAAAAAlAAkADgAAAAAAAAAmAAUADwAAAAAAAAAmAAYADgAAAAAAAAAmAAcADgAAAAAAAAAmAAgADgAAAAAAAAAmAAkADgAAAAAAAAAnAAUADwAAAAAAAAAnAAYADgAAAAAAAAAnAAcADgAAAAAAAAAnAAgADgAAAAAAAAAnAAkADgAAAAAAAAAoAAUADwAAAAAAAAAoAAYADgAAAAAAAAAoAAcADgAAAAAAAAAoAAgADgAAAAAAAAAoAAkADgAAAAAAAAApAAUADwAAAAAAAAApAAYADgAAAAAAAAApAAcADgAAAAAAAAApAAgADgAAAAAAAAApAAkADgAAAAAAAAAqAAUADwAAAAAAAAAqAAYADgAAAAAAAAAqAAcADgAAAAAAAAAqAAgADgAAAAAAAAAqAAkADgAAAAAAAAArAAUADwAAAAAAAAArAAYADgAAAAAAAAArAAcADgAAAAAAAAArAAgADgAAAAAAAAArAAkADgAAAAAAAAAtAAQADwAAAAAAAAAtAAUADgAAAAAAAAAtAAYADgAAAAAAAAAwAAMADwAAAAAAAAAwAAQADgAAAAAAAAAwAAUADgAAAAAAAAAwAAYADgAAAAAAAAA0AAQADwAAAAAAAAA0AAUADgAAAAAAAAA0AAYADgAAAAAAAAA7AAYADwAAAAAAAAA7AAcADgAAAAAAAAA7AAgADgAAAAAAAAA7AAkADgAAAAAAAAA9AAgADwAAAAAAAAA+AAgADwAAAAAAAAA/AAgADwAAAAAAAABAAAgADwAAAAAAAABBAAgADwAAAAAAAABCAAcADwAAAAAAAABCAAgADgAAAAAAAABDAAcADgAAAAAAAABDAAYADwAAAAAAAABEAAYADgAAAAAAAABEAAUADwAAAAAAAABFAAUADwAAAAAAAABGAAUADwAAAAAAAABHAAUADwAAAAAAAABIAAUADwAAAAAAAABJAAUADwAAAAAAAABKAAUADwAAAAAAAABLAAUADwAAAAAAAAAHAAQADwAAAAAAAAAGAAQADwAAAAAAAAAIAAMADwAAAAAAAAAJAAMADwAAAAAAAAAQAAQADwAAAAAAAAARAAQADgAAAAAAAAASAAQADgAAAAAAAAATAAQADwAAAAAAAAARAAMADwAAAAAAAAASAAMADwAAAAAAAAAWAAIADwAAAAAAAAAXAAIADwAAAAAAAAAYAAIADwAAAAAAAAAZAAIADwAAAAAAAAA6AAgADwAAAAAAAAA3AAcADwAAAAAAAAA1AAkADwAAAAAAAAA=")
+tile_set = SubResource("TileSet_tlwt5")
+
+[node name="player" type="CharacterBody2D" parent="."]
+position = Vector2(87, 14)
+scale = Vector2(1.5, 1.5)
+script = SubResource("GDScript_tlwt5")
+
+[node name="Sprite2D" type="Sprite2D" parent="player"]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_fj7yv")
+hframes = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player"]
+position = Vector2(0.125, 0.375)
+scale = Vector2(2, 2)
+shape = SubResource("RectangleShape2D_aqk2v")
+
+[node name="Camera2D" type="Camera2D" parent="player"]
+scale = Vector2(2, 2)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="player"]
+libraries = {
+&"": SubResource("AnimationLibrary_tlwt5")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="player"]
+tree_root = SubResource("AnimationNodeStateMachine_fj7yv")
+anim_player = NodePath("../AnimationPlayer")
+
+[node name="interaction" type="Area2D" parent="player"]
+position = Vector2(21.5, 0.5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player/interaction"]
+position = Vector2(-21.5, -0.25)
+shape = SubResource("RectangleShape2D_tlwt5")
+
+[node name="background" type="Sprite2D" parent="."]
+
+[node name="npc" type="CharacterBody2D" parent="."]
+script = ExtResource("3_tlwt5")
+
+[node name="Sprite2D" type="Sprite2D" parent="npc"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="npc"]
+shape = SubResource("RectangleShape2D_036b0")
+
+[node name="Area2D" type="Area2D" parent="npc"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="npc/Area2D"]
+shape = SubResource("RectangleShape2D_dwbse")
+
+[node name="test" type="Node2D" parent="."]
+
+[node name="DialogueLayer" parent="." instance=ExtResource("5_gbfbk")]
+visible = false
+
+[node name="NPC" parent="." instance=ExtResource("6_ioo17")]
+position = Vector2(195, 210.5)
+
+[node name="NPC2" parent="." instance=ExtResource("7_wse8f")]
+position = Vector2(-108, 101.5)
+script = null
+
+[node name="NPC3" parent="." instance=ExtResource("8_ic0uy")]
+position = Vector2(354.5, -32)
+script = null
+
+[connection signal="area_entered" from="npc/Area2D" to="player" method="_on_area_2d_area_entered"]
+[connection signal="area_exited" from="npc/Area2D" to="player" method="_on_area_2d_area_exited"]
