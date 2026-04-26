@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://b5vremtr4nd4b"]
+[gd_scene load_steps=0 format=3 uid="uid://b5vremtr4nd4b"]
 
 [ext_resource type="Script" uid="uid://vwj7t5ly4r8j" path="res://killable.gd" id="1_dk2mu"]
 [ext_resource type="Texture2D" uid="uid://cl86iivmox8dn" path="res://Screenshot_2026-04-25_at_11.48.42_PM-removebg-preview.png" id="2_rhttc"]
