@@ -27,6 +27,8 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 
 func _on_bed_area_body_entered(body: Node2D) -> void:
 	if $"../blueBook".visible == true and $"../greenBook".visible == true and $"../redBook".visible == true:
+		$"../AnimationPlayer".play("transition")
+		$"../ColorRect2/RichTextLabel".text = "Head to bed now!"
+		await $"../AnimationPlayer".animation_finished
 		get_tree().change_scene_to_file("res://world.tscn")
-	
 		print ("bed!")

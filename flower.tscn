@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://c4o4kj5y6rsqo"]
+
+[ext_resource type="Texture2D" uid="uid://c486unxodfbvd" path="res://decor.png" id="1_p547k"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nageh"]
+atlas = ExtResource("1_p547k")
+region = Rect2(816, 948, 67, 63)
+
+[node name="flower" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_nageh")

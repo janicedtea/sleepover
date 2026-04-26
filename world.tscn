@@ -1,8 +1,9 @@
-[gd_scene load_steps=35 format=4 uid="uid://cip28t26ox18"]
+[gd_scene load_steps=41 format=4 uid="uid://cip28t26ox18"]
 
 [ext_resource type="Texture2D" uid="uid://dpftwql4trvjs" path="res://bg1/Untitled_Artwork-1 6.png" id="1_cbp6q"]
 [ext_resource type="Texture2D" uid="uid://dilkp2cxak1al" path="res://bg1/Untitled_Artwork-2 5.png" id="1_ikiii"]
 [ext_resource type="Texture2D" uid="uid://bc1sk2ch824s3" path="res://grass.png" id="1_tlwt5"]
+[ext_resource type="Script" uid="uid://df4md3muc4cmd" path="res://world.gd" id="1_wukud"]
 [ext_resource type="Texture2D" uid="uid://bcwjn4hyrvfke" path="res://dirt.png" id="2_aqk2v"]
 [ext_resource type="Texture2D" uid="uid://b8wbk5o1ueb7j" path="res://bg1/Untitled_Artwork-3 5.png" id="2_cbp6q"]
 [ext_resource type="Texture2D" uid="uid://b31o2mtofy4kw" path="res://combined-image-removebg-preview.png" id="2_fj7yv"]
@@ -13,15 +14,16 @@
 [ext_resource type="Texture2D" uid="uid://bcabup02e4nt1" path="res://bg1/Untitled_Artwork-7 3.png" id="6_il2jm"]
 [ext_resource type="PackedScene" path="res://npc.tscn" id="6_ioo17"]
 [ext_resource type="PackedScene" path="res://npc_2.tscn" id="7_wse8f"]
+[ext_resource type="Texture2D" uid="uid://cl5ml6km6ueof" path="res://bg1/pinkBg.png" id="8_bc84e"]
 [ext_resource type="Script" path="res://barrier_1.gd" id="8_gbfbk"]
 [ext_resource type="PackedScene" path="res://npc_3.tscn" id="8_ic0uy"]
 [ext_resource type="Script" path="res://barrier_2.gd" id="9_wse8f"]
+[ext_resource type="Texture2D" uid="uid://u471rlo8cifh" path="res://bg1/purpleBg.png" id="9_wukud"]
 [ext_resource type="Script" path="res://barrier_3.gd" id="10_ic0uy"]
 [ext_resource type="PackedScene" uid="uid://dsh1mpgbg31tg" path="res://attack.tscn" id="11_ic0uy"]
 [ext_resource type="PackedScene" uid="uid://b5vremtr4nd4b" path="res://killable.tscn" id="12_k3n1d"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_wjb0r"]
-load_path = "res://.godot/imported/Untitled_Artwork-1 5.png-bd0453dd4d19528f7a189f324752a582.ctex"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dwbse"]
 texture = ExtResource("2_aqk2v")
@@ -173,8 +175,56 @@ size = Vector2(55.25, 49.75)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pkg7o"]
 size = Vector2(48, 374.5)
 
+[sub_resource type="Animation" id="Animation_il2jm"]
+resource_name = "reverse"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect2:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.9843137, 0.5058824, 0.63529414, 1), Color(0.9843137, 0.5058824, 0.63529414, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_wjb0r"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect2:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.9843137, 0.5058824, 0.63529414, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mc2jv"]
+_data = {
+&"RESET": SubResource("Animation_wjb0r"),
+&"reverse": SubResource("Animation_il2jm")
+}
+
 [node name="world" type="Node2D"]
 scale = Vector2(2, 2)
+script = ExtResource("1_wukud")
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+top_level = true
+offset_left = -304.0
+offset_top = -88.0
+offset_right = 858.0
+offset_bottom = 593.0
+scale = Vector2(1.6555626, 2.2500317)
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0.9843137, 0.5058824, 0.63529414, 1)
 
 [node name="UntitledArtwork15" type="Sprite2D" parent="."]
 visible = false
@@ -193,6 +243,7 @@ color = Color(0.42931268, 0.31288287, 0.21858883, 1)
 layout_mode = 0
 offset_right = 4072.0
 offset_bottom = 4.0
+scale = Vector2(1.008064, 0.374359)
 color = Color(0.38357055, 0.28646863, 0.20659924, 1)
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
@@ -206,31 +257,47 @@ motion_mirroring = Vector2(1152, 0)
 [node name="Parallax2D" type="Parallax2D" parent="ParallaxBackground"]
 scroll_offset = Vector2(0, 560)
 repeat_size = Vector2(1146, 0)
-repeat_times = 31
+repeat_times = 12
 
-[node name="UntitledArtwork16" type="Sprite2D" parent="ParallaxBackground/Parallax2D"]
+[node name="Blue Sky" type="Sprite2D" parent="ParallaxBackground/Parallax2D"]
 position = Vector2(424, -584)
 texture = ExtResource("1_cbp6q")
 
-[node name="UntitledArtwork25" type="Sprite2D" parent="ParallaxBackground/Parallax2D"]
+[node name="GreenBg" type="Sprite2D" parent="ParallaxBackground/Parallax2D"]
 position = Vector2(576, -536)
 texture = ExtResource("1_ikiii")
 
-[node name="UntitledArtwork35" type="Sprite2D" parent="ParallaxBackground/Parallax2D/UntitledArtwork25"]
+[node name="UntitledArtwork35" type="Sprite2D" parent="ParallaxBackground/Parallax2D/GreenBg"]
 position = Vector2(0, 8)
 texture = ExtResource("2_cbp6q")
 
-[node name="UntitledArtwork43" type="Sprite2D" parent="ParallaxBackground/Parallax2D/UntitledArtwork25/UntitledArtwork35"]
+[node name="UntitledArtwork43" type="Sprite2D" parent="ParallaxBackground/Parallax2D/GreenBg/UntitledArtwork35"]
 texture = ExtResource("3_26xuy")
 
-[node name="UntitledArtwork53" type="Sprite2D" parent="ParallaxBackground/Parallax2D/UntitledArtwork25/UntitledArtwork35/UntitledArtwork43"]
+[node name="UntitledArtwork53" type="Sprite2D" parent="ParallaxBackground/Parallax2D/GreenBg/UntitledArtwork35/UntitledArtwork43"]
 texture = ExtResource("4_bc84e")
 
-[node name="UntitledArtwork63" type="Sprite2D" parent="ParallaxBackground/Parallax2D/UntitledArtwork25/UntitledArtwork35/UntitledArtwork43/UntitledArtwork53"]
+[node name="UntitledArtwork63" type="Sprite2D" parent="ParallaxBackground/Parallax2D/GreenBg/UntitledArtwork35/UntitledArtwork43/UntitledArtwork53"]
 texture = ExtResource("5_wukud")
 
-[node name="UntitledArtwork73" type="Sprite2D" parent="ParallaxBackground/Parallax2D/UntitledArtwork25/UntitledArtwork35/UntitledArtwork43/UntitledArtwork53/UntitledArtwork63"]
+[node name="UntitledArtwork73" type="Sprite2D" parent="ParallaxBackground/Parallax2D/GreenBg/UntitledArtwork35/UntitledArtwork43/UntitledArtwork53/UntitledArtwork63"]
 texture = ExtResource("6_il2jm")
+
+[node name="Parallax2D2" type="Parallax2D" parent="ParallaxBackground"]
+repeat_size = Vector2(1146, 0)
+repeat_times = 3
+
+[node name="PinkBg" type="Sprite2D" parent="ParallaxBackground/Parallax2D2"]
+position = Vector2(9008, 32)
+texture = ExtResource("8_bc84e")
+
+[node name="Parallax2D3" type="Parallax2D" parent="ParallaxBackground"]
+repeat_size = Vector2(1146, 0)
+repeat_times = 5
+
+[node name="PurpleBg" type="Sprite2D" parent="ParallaxBackground/Parallax2D3"]
+position = Vector2(15000, 32)
+texture = ExtResource("9_wukud")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 scale = Vector2(2, 2)
@@ -330,6 +397,31 @@ scale = Vector2(0.2, 0.2)
 [node name="killable2" parent="." instance=ExtResource("12_k3n1d")]
 position = Vector2(8624.5, 244)
 scale = Vector2(0.2, 0.2)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_mc2jv")
+}
+
+[node name="ColorRect3" type="ColorRect" parent="."]
+modulate = Color(1, 1, 1, 0.7647059)
+offset_left = -72.0
+offset_top = 52.0
+offset_right = 572.0
+offset_bottom = 111.0
+scale = Vector2(0.5, 0.5)
+color = Color(0.954243, 0.8184888, 0.7466075, 1)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="ColorRect3"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 12.0
+offset_right = 740.0
+offset_bottom = 247.0
+theme_override_colors/default_color = Color(0.98207766, 0.47478044, 0.5097106, 1)
+theme_override_colors/font_outline_color = Color(0.9999785, 0.7532929, 0.7129086, 1)
+theme_override_font_sizes/normal_font_size = 25
+text = "The forest?"
 
 [connection signal="body_entered" from="Player/interaction" to="Player" method="_on_interaction_body_entered"]
 [connection signal="body_exited" from="Player/interaction" to="Player" method="_on_interaction_body_exited"]

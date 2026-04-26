@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bn8x53gs30sn0"]
+[gd_scene load_steps=17 format=3 uid="uid://bn8x53gs30sn0"]
 
 [ext_resource type="Texture2D" uid="uid://cqpkhmb8purrn" path="res://bunnyBedroom.png" id="1_iw0c1"]
 [ext_resource type="PackedScene" uid="uid://bqde8m8ly6e5u" path="res://bunny_player.tscn" id="3_e18cj"]
@@ -38,6 +38,42 @@ region = Rect2(963, 427, 46, 69)
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ui2oe"]
 radius = 74.0
 height = 448.0
+
+[sub_resource type="Animation" id="Animation_ui2oe"]
+resource_name = "transition"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_o412v"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6d2g4"]
+_data = {
+&"RESET": SubResource("Animation_o412v"),
+&"transition": SubResource("Animation_ui2oe")
+}
 
 [node name="Node2D" type="Node2D"]
 
@@ -117,6 +153,38 @@ texture = SubResource("AtlasTexture_4ken1")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="bedArea"]
 position = Vector2(318, 461)
 shape = SubResource("CapsuleShape2D_ui2oe")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+modulate = Color(1, 1, 1, 0)
+offset_right = 1162.0
+offset_bottom = 681.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0.9843137, 0.5058824, 0.63529414, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_6d2g4")
+}
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+modulate = Color(1, 1, 1, 0.7647059)
+offset_left = 489.0
+offset_top = 21.0
+offset_right = 1133.0
+offset_bottom = 80.0
+color = Color(0.954243, 0.8184888, 0.7466075, 1)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="ColorRect2"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 12.0
+offset_right = 740.0
+offset_bottom = 247.0
+theme_override_colors/default_color = Color(0.98207766, 0.47478044, 0.5097106, 1)
+theme_override_colors/font_outline_color = Color(0.9999785, 0.7532929, 0.7129086, 1)
+theme_override_font_sizes/normal_font_size = 25
+text = "It's time to go to bed, but first... collect your books"
 
 [connection signal="body_entered" from="book1/Area2D" to="book1" method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="book2/Area2D" to="book2" method="_on_area_2d_body_entered"]
