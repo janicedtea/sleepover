@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=4 uid="uid://cip28t26ox18"]
+[gd_scene load_steps=43 format=4 uid="uid://cip28t26ox18"]
 
 [ext_resource type="Texture2D" uid="uid://dpftwql4trvjs" path="res://bg1/Untitled_Artwork-1 6.png" id="1_cbp6q"]
 [ext_resource type="Texture2D" uid="uid://dilkp2cxak1al" path="res://bg1/Untitled_Artwork-2 5.png" id="1_ikiii"]
@@ -12,16 +12,17 @@
 [ext_resource type="PackedScene" uid="uid://rmj18lepvoqr" path="res://dialogue_layer.tscn" id="5_gbfbk"]
 [ext_resource type="Texture2D" uid="uid://bsb4kd8njc50j" path="res://bg1/Untitled_Artwork-6 3.png" id="5_wukud"]
 [ext_resource type="Texture2D" uid="uid://bcabup02e4nt1" path="res://bg1/Untitled_Artwork-7 3.png" id="6_il2jm"]
-[ext_resource type="PackedScene" path="res://npc.tscn" id="6_ioo17"]
-[ext_resource type="PackedScene" path="res://npc_2.tscn" id="7_wse8f"]
+[ext_resource type="PackedScene" uid="uid://bsamy5105cdow" path="res://npc.tscn" id="6_ioo17"]
+[ext_resource type="PackedScene" uid="uid://s6sypq3x682c" path="res://npc_2.tscn" id="7_wse8f"]
 [ext_resource type="Texture2D" uid="uid://cl5ml6km6ueof" path="res://bg1/pinkBg.png" id="8_bc84e"]
-[ext_resource type="Script" path="res://barrier_1.gd" id="8_gbfbk"]
-[ext_resource type="PackedScene" path="res://npc_3.tscn" id="8_ic0uy"]
-[ext_resource type="Script" path="res://barrier_2.gd" id="9_wse8f"]
+[ext_resource type="Script" uid="uid://dmk3mui85mln5" path="res://barrier_1.gd" id="8_gbfbk"]
+[ext_resource type="PackedScene" uid="uid://crn1ffvkmfjgs" path="res://npc_3.tscn" id="8_ic0uy"]
+[ext_resource type="Script" uid="uid://bgkqb1b7m04p7" path="res://barrier_2.gd" id="9_wse8f"]
 [ext_resource type="Texture2D" uid="uid://u471rlo8cifh" path="res://bg1/purpleBg.png" id="9_wukud"]
-[ext_resource type="Script" path="res://barrier_3.gd" id="10_ic0uy"]
-[ext_resource type="PackedScene" uid="uid://dsh1mpgbg31tg" path="res://attack.tscn" id="11_ic0uy"]
-[ext_resource type="PackedScene" uid="uid://b5vremtr4nd4b" path="res://killable.tscn" id="12_k3n1d"]
+[ext_resource type="Script" uid="uid://ddp6mdbnq24r1" path="res://barrier_3.gd" id="10_ic0uy"]
+[ext_resource type="PackedScene" path="res://attack.tscn" id="11_ic0uy"]
+[ext_resource type="PackedScene" path="res://killable.tscn" id="12_k3n1d"]
+[ext_resource type="Script" uid="uid://dmqemeepy5qg3" path="res://area_2d.gd" id="23_il2jm"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_wjb0r"]
 
@@ -175,21 +176,6 @@ size = Vector2(55.25, 49.75)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pkg7o"]
 size = Vector2(48, 374.5)
 
-[sub_resource type="Animation" id="Animation_il2jm"]
-resource_name = "reverse"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("ColorRect2:color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0.9843137, 0.5058824, 0.63529414, 1), Color(0.9843137, 0.5058824, 0.63529414, 0)]
-}
-
 [sub_resource type="Animation" id="Animation_wjb0r"]
 length = 0.001
 tracks/0/type = "value"
@@ -205,11 +191,29 @@ tracks/0/keys = {
 "values": [Color(0.9843137, 0.5058824, 0.63529414, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_il2jm"]
+resource_name = "reverse"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect2:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.9843137, 0.5058824, 0.63529414, 1), Color(0.9843137, 0.5058824, 0.63529414, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_mc2jv"]
 _data = {
 &"RESET": SubResource("Animation_wjb0r"),
 &"reverse": SubResource("Animation_il2jm")
 }
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wukud"]
+size = Vector2(109.25, 290)
 
 [node name="world" type="Node2D"]
 scale = Vector2(2, 2)
@@ -423,5 +427,13 @@ theme_override_colors/font_outline_color = Color(0.9999785, 0.7532929, 0.7129086
 theme_override_font_sizes/normal_font_size = 25
 text = "The forest?"
 
+[node name="Area2D" type="Area2D" parent="."]
+script = ExtResource("23_il2jm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(8728.375, 134)
+shape = SubResource("RectangleShape2D_wukud")
+
 [connection signal="body_entered" from="Player/interaction" to="Player" method="_on_interaction_body_entered"]
 [connection signal="body_exited" from="Player/interaction" to="Player" method="_on_interaction_body_exited"]
+[connection signal="body_entered" from="Area2D" to="Area2D" method="_on_body_entered"]
